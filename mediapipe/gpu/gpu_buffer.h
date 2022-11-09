@@ -129,8 +129,6 @@ class GpuBuffer {
     return nullptr;
   }
 
-  std::string DebugString() const;
-
  private:
   class PlaceholderGpuBufferStorage
       : public internal::GpuBufferStorageImpl<PlaceholderGpuBufferStorage> {

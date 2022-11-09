@@ -25,13 +25,9 @@ package(
 mediapipe_files(srcs = [
     "30k-clean.model",
     "albert_with_metadata.tflite",
-    "bert_text_classifier.tflite",
-    "mobilebert_embedding_with_metadata.tflite",
+    "bert_nl_classifier.tflite",
     "mobilebert_with_metadata.tflite",
-    "regex_one_embedding_with_metadata.tflite",
-    "test_model_text_classifier_bool_output.tflite",
-    "test_model_text_classifier_with_regex_tokenizer.tflite",
-    "universal_sentence_encoder_qa_with_metadata.tflite",
+    "test_model_nl_classifier_with_regex_tokenizer.tflite",
 ])
 
 exports_files(srcs = [
@@ -76,29 +72,13 @@ filegroup(
 )
 
 filegroup(
-    name = "text_classifier_models",
-    srcs = [
-        "test_model_text_classifier_bool_output.tflite",
-        "test_model_text_classifier_with_regex_tokenizer.tflite",
-    ],
+    name = "nl_classifier_models",
+    srcs = glob([
+        "test_model_nl_classifier*.tflite",
+    ]),
 )
 
 filegroup(
-    name = "bert_text_classifier_models",
-    srcs = ["bert_text_classifier.tflite"],
-)
-
-filegroup(
-    name = "mobilebert_embedding_model",
-    srcs = ["mobilebert_embedding_with_metadata.tflite"],
-)
-
-filegroup(
-    name = "regex_embedding_with_metadata",
-    srcs = ["regex_one_embedding_with_metadata.tflite"],
-)
-
-filegroup(
-    name = "universal_sentence_encoder_qa",
-    data = ["universal_sentence_encoder_qa_with_metadata.tflite"],
+    name = "bert_nl_classifier_models",
+    srcs = ["bert_nl_classifier.tflite"],
 )

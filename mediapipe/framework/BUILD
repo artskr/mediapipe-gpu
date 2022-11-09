@@ -1685,3 +1685,10 @@ cc_test(
         "@com_google_absl//absl/strings:str_format",
     ],
 )
+
+# Expose the proto source files for building mediapipe AAR.
+filegroup(
+    name = "protos_src",
+    srcs = glob(["*.proto"]),
+    visibility = ["//mediapipe:__subpackages__"],
+)

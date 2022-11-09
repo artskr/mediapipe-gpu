@@ -161,7 +161,7 @@ class Texture {
 
   ~Texture() {
     if (is_owned_) {
-      glDeleteTextures(1, &handle_);
+      glDeleteProgram(handle_);
     }
   }
 

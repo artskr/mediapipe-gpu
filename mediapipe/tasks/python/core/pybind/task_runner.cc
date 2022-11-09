@@ -16,7 +16,6 @@
 
 #include "mediapipe/framework/calculator.pb.h"
 #include "mediapipe/python/pybind/util.h"
-#include "mediapipe/tasks/cc/core/mediapipe_builtin_op_resolver.h"
 #include "mediapipe/tasks/cc/core/task_runner.h"
 #include "pybind11/stl.h"
 #include "pybind11_protobuf/native_proto_caster.h"
@@ -76,7 +75,7 @@ mode) or not (synchronous mode).)doc");
         }
         auto task_runner = TaskRunner::Create(
             std::move(graph_config),
-            absl::make_unique<core::MediaPipeBuiltinOpResolver>(),
+            absl::make_unique<tflite::ops::builtin::BuiltinOpResolver>(),
             std::move(callback));
         RaisePyErrorIfNotOk(task_runner.status());
         return std::move(*task_runner);

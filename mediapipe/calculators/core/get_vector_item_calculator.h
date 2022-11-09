@@ -19,7 +19,6 @@
 
 #include "mediapipe/calculators/core/get_vector_item_calculator.pb.h"
 #include "mediapipe/framework/api2/node.h"
-#include "mediapipe/framework/api2/packet.h"
 #include "mediapipe/framework/api2/port.h"
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/port/ret_check.h"
@@ -59,7 +58,7 @@ template <typename T>
 class GetVectorItemCalculator : public Node {
  public:
   static constexpr Input<std::vector<T>> kIn{"VECTOR"};
-  static constexpr Input<OneOf<int, uint64_t>>::Optional kIdx{"INDEX"};
+  static constexpr Input<int>::Optional kIdx{"INDEX"};
   static constexpr Output<T> kOut{"ITEM"};
 
   MEDIAPIPE_NODE_CONTRACT(kIn, kIdx, kOut);
@@ -81,9 +80,7 @@ class GetVectorItemCalculator : public Node {
 
     int idx = 0;
     if (kIdx(cc).IsConnected() && !kIdx(cc).IsEmpty()) {
-      idx = kIdx(cc).Visit(
-          [](uint64_t idx_uint64_t) { return static_cast<int>(idx_uint64_t); },
-          [](int idx_int) { return idx_int; });
+      idx = kIdx(cc).Get();
     } else if (options.has_item_index()) {
       idx = options.item_index();
     } else {

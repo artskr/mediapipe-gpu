@@ -15,7 +15,6 @@
 """Tests for mediapipe.python._framework_bindings.image."""
 
 import gc
-import os
 import random
 import sys
 
@@ -24,7 +23,6 @@ import cv2
 import numpy as np
 import PIL.Image
 
-# resources dependency
 from mediapipe.python._framework_bindings import image
 from mediapipe.python._framework_bindings import image_frame
 
@@ -186,6 +184,7 @@ class ImageTest(absltest.TestCase):
     del np_view
     gc.collect()
     self.assertEqual(sys.getrefcount(rgb_image), initial_ref_count)
+
 
 if __name__ == '__main__':
   absltest.main()

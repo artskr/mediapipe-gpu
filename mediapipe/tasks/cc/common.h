@@ -65,8 +65,6 @@ enum class MediaPipeTasksStatus {
   kFileReadError,
   // I/O error when mmap-ing file.
   kFileMmapError,
-  // ZIP I/O error when unpacking the zip file.
-  kFileZipError,
 
   // TensorFlow Lite metadata error codes.
 

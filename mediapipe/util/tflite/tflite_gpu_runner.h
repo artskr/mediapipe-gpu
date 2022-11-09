@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "absl/status/status.h"
-#include "mediapipe/framework/port.h"
 #include "mediapipe/framework/port/status.h"
 #include "mediapipe/framework/port/statusor.h"
 #include "tensorflow/lite/core/api/op_resolver.h"
@@ -29,9 +28,9 @@
 #include "tensorflow/lite/delegates/gpu/gl/api2.h"
 #include "tensorflow/lite/model.h"
 
-#if defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#ifdef __ANDROID__
 #include "tensorflow/lite/delegates/gpu/cl/api.h"
-#endif  // defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#endif  // __ANDROID__
 
 namespace tflite {
 namespace gpu {
@@ -84,7 +83,7 @@ class TFLiteGPURunner {
     return output_shape_from_model_;
   }
 
-#if defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#ifdef __ANDROID__
   void SetSerializedBinaryCache(std::vector<uint8_t>&& cache) {
     serialized_binary_cache_ = std::move(cache);
   }
@@ -99,26 +98,26 @@ class TFLiteGPURunner {
   }
 
   absl::StatusOr<std::vector<uint8_t>> GetSerializedModel();
-#endif  // defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#endif  // __ANDROID__
 
  private:
   absl::Status InitializeOpenGL(std::unique_ptr<InferenceBuilder>* builder);
   absl::Status InitializeOpenCL(std::unique_ptr<InferenceBuilder>* builder);
-#if defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#ifdef __ANDROID__
   absl::Status InitializeOpenCLFromSerializedModel(
       std::unique_ptr<InferenceBuilder>* builder);
-#endif  // defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#endif  // __ANDROID__
 
   InferenceOptions options_;
   std::unique_ptr<gl::InferenceEnvironment> gl_environment_;
 
-#if defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#ifdef __ANDROID__
   std::unique_ptr<cl::InferenceEnvironment> cl_environment_;
 
   std::vector<uint8_t> serialized_binary_cache_;
   std::vector<uint8_t> serialized_model_;
   bool serialized_model_used_ = false;
-#endif  // defined(__ANDROID__) || defined(MEDIAPIPE_CHROMIUMOS)
+#endif  // __ANDROID__
 
   // graph_gl_ is maintained temporarily and becomes invalid after runner_ is
   // ready

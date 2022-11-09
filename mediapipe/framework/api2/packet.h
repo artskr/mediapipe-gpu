@@ -27,7 +27,9 @@ using HolderBase = mediapipe::packet_internal::HolderBase;
 template <typename T>
 class Packet;
 
-struct AnyType {
+struct DynamicType {};
+
+struct AnyType : public DynamicType {
   AnyType() = delete;
 };
 

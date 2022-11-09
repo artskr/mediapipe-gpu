@@ -32,7 +32,6 @@ limitations under the License.
 #include "mediapipe/framework/calculator.pb.h"
 #include "mediapipe/framework/port/logging.h"
 #include "mediapipe/tasks/cc/common.h"
-#include "mediapipe/tasks/cc/core/model_asset_bundle_resources.h"
 #include "mediapipe/tasks/cc/core/model_resources.h"
 #include "mediapipe/tasks/cc/core/model_resources_cache.h"
 #include "mediapipe/tasks/cc/core/proto/acceleration.pb.h"
@@ -71,17 +70,6 @@ std::string CreateModelResourcesTag(const CalculatorGraphConfig::Node& node) {
                          node_type);
 }
 
-std::string CreateModelAssetBundleResourcesTag(
-    const CalculatorGraphConfig::Node& node) {
-  std::vector<std::string> names = absl::StrSplit(node.name(), "__");
-  std::string node_type = node.calculator();
-  std::replace(node_type.begin(), node_type.end(), '.', '_');
-  absl::AsciiStrToLower(&node_type);
-  return absl::StrFormat("%s_%s_model_asset_bundle_resources",
-                         names.back().empty() ? "unnamed" : names.back(),
-                         node_type);
-}
-
 }  // namespace
 
 // Defines the mediapipe task inference unit as a MediaPipe subgraph that
@@ -103,7 +91,7 @@ class InferenceSubgraph : public Subgraph {
           subgraph_options->model_resources_tag());
     } else {
       model_resources_opts.mutable_model_file()->Swap(
-          subgraph_options->mutable_base_options()->mutable_model_asset());
+          subgraph_options->mutable_base_options()->mutable_model_file());
     }
     model_resources_node.SideOut(kMetadataExtractorTag) >>
         graph.SideOut(kMetadataExtractorTag);
@@ -134,9 +122,6 @@ class InferenceSubgraph : public Subgraph {
       case Acceleration::kGpu:
         delegate.mutable_gpu()->CopyFrom(acceleration.gpu());
         break;
-      case Acceleration::kTflite:
-        delegate.mutable_tflite()->CopyFrom(acceleration.tflite());
-        break;
       case Acceleration::DELEGATE_NOT_SET:
         // Deafult inference calculator setting.
         break;
@@ -156,24 +141,21 @@ absl::StatusOr<CalculatorGraphConfig> ModelTaskGraph::GetConfig(
 }
 
 absl::StatusOr<const ModelResources*> ModelTaskGraph::CreateModelResources(
-    SubgraphContext* sc, std::unique_ptr<proto::ExternalFile> external_file,
-    const std::string tag_suffix) {
+    SubgraphContext* sc, std::unique_ptr<proto::ExternalFile> external_file) {
   auto model_resources_cache_service = sc->Service(kModelResourcesCacheService);
   if (!model_resources_cache_service.IsAvailable()) {
-    ASSIGN_OR_RETURN(auto local_model_resource,
+    ASSIGN_OR_RETURN(local_model_resources_,
                      ModelResources::Create("", std::move(external_file)));
     LOG(WARNING)
         << "A local ModelResources object is created. Please consider using "
            "ModelResourcesCacheService to cache the created ModelResources "
            "object in the CalculatorGraph.";
-    local_model_resources_.push_back(std::move(local_model_resource));
-    return local_model_resources_.back().get();
+    return local_model_resources_.get();
   }
   ASSIGN_OR_RETURN(
       auto op_resolver_packet,
       model_resources_cache_service.GetObject().GetGraphOpResolverPacket());
-  const std::string tag =
-      absl::StrCat(CreateModelResourcesTag(sc->OriginalNode()), tag_suffix);
+  const std::string tag = CreateModelResourcesTag(sc->OriginalNode());
   ASSIGN_OR_RETURN(auto model_resources,
                    ModelResources::Create(tag, std::move(external_file),
                                           op_resolver_packet));
@@ -183,61 +165,22 @@ absl::StatusOr<const ModelResources*> ModelTaskGraph::CreateModelResources(
   return model_resources_cache_service.GetObject().GetModelResources(tag);
 }
 
-absl::StatusOr<const ModelAssetBundleResources*>
-ModelTaskGraph::CreateModelAssetBundleResources(
-    SubgraphContext* sc, std::unique_ptr<proto::ExternalFile> external_file,
-    const std::string tag_suffix) {
-  auto model_resources_cache_service = sc->Service(kModelResourcesCacheService);
-  bool has_file_pointer_meta = external_file->has_file_pointer_meta();
-  // if external file is set by file pointer, no need to add the model asset
-  // bundle resources into the model resources service since the memory is
-  // not owned by this model asset bundle resources.
-  if (!model_resources_cache_service.IsAvailable() || has_file_pointer_meta) {
-    ASSIGN_OR_RETURN(
-        auto local_model_asset_bundle_resource,
-        ModelAssetBundleResources::Create("", std::move(external_file)));
-    if (!has_file_pointer_meta) {
-      LOG(WARNING)
-          << "A local ModelResources object is created. Please consider using "
-             "ModelResourcesCacheService to cache the created ModelResources "
-             "object in the CalculatorGraph.";
-    }
-    local_model_asset_bundle_resources_.push_back(
-        std::move(local_model_asset_bundle_resource));
-    return local_model_asset_bundle_resources_.back().get();
-  }
-  const std::string tag = absl::StrCat(
-      CreateModelAssetBundleResourcesTag(sc->OriginalNode()), tag_suffix);
-  ASSIGN_OR_RETURN(
-      auto model_bundle_resources,
-      ModelAssetBundleResources::Create(tag, std::move(external_file)));
-  MP_RETURN_IF_ERROR(
-      model_resources_cache_service.GetObject().AddModelAssetBundleResources(
-          std::move(model_bundle_resources)));
-  return model_resources_cache_service.GetObject().GetModelAssetBundleResources(
-      tag);
-}
-
-GenericNode& ModelTaskGraph::AddInference(
-    const ModelResources& model_resources,
-    const proto::Acceleration& acceleration, Graph& graph) const {
+GenericNode& ModelTaskGraph::AddInference(const ModelResources& model_resources,
+                                          Graph& graph) const {
   auto& inference_subgraph =
       graph.AddNode("mediapipe.tasks.core.InferenceSubgraph");
   auto& inference_subgraph_opts =
       inference_subgraph.GetOptions<InferenceSubgraphOptions>();
-  inference_subgraph_opts.mutable_base_options()
-      ->mutable_acceleration()
-      ->CopyFrom(acceleration);
   // When the model resources tag is available, the ModelResourcesCalculator
   // will retrieve the cached model resources from the graph service by tag.
-  // Otherwise, provides the external file and asks the
+  // Otherwise, provides the exteranal file and asks the
   // ModelResourcesCalculator to create a local model resources in its
-  // Calculator::Open().
+  // Calcualtor::Open().
   if (!model_resources.GetTag().empty()) {
     inference_subgraph_opts.set_model_resources_tag(model_resources.GetTag());
   } else {
     inference_subgraph_opts.mutable_base_options()
-        ->mutable_model_asset()
+        ->mutable_model_file()
         ->CopyFrom(model_resources.GetModelFile());
   }
   return inference_subgraph;

@@ -48,8 +48,6 @@ pybind_extension(
         "//mediapipe/python/pybind:timestamp",
         "//mediapipe/python/pybind:validated_graph_config",
         "//mediapipe/tasks/python/core/pybind:task_runner",
-        "@com_google_absl//absl/strings:str_format",
-        "@stblib//:stb_image",
         # Type registration.
         "//mediapipe/framework:basic_types_registration",
         "//mediapipe/framework/formats:classification_registration",
@@ -70,36 +68,19 @@ cc_library(
         "//mediapipe/calculators/core:string_to_int_calculator",
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/util:detection_unique_id_calculator",
-        "//mediapipe/modules/face_detection:face_detection_full_range_cpu",
-        "//mediapipe/modules/face_detection:face_detection_short_range_cpu",
-        "//mediapipe/modules/face_landmark:face_landmark_front_cpu",
-        "//mediapipe/modules/hand_landmark:hand_landmark_tracking_cpu",
-        "//mediapipe/modules/holistic_landmark:holistic_landmark_cpu",
-        "//mediapipe/modules/objectron:objectron_cpu",
-        "//mediapipe/modules/palm_detection:palm_detection_cpu",
-        "//mediapipe/modules/pose_detection:pose_detection_cpu",
-        "//mediapipe/modules/pose_landmark:pose_landmark_by_roi_cpu",
-        "//mediapipe/modules/pose_landmark:pose_landmark_cpu",
-        "//mediapipe/modules/selfie_segmentation:selfie_segmentation_cpu",
+        "//mediapipe/modules/face_detection:face_detection_full_range_gpu",
+        "//mediapipe/modules/face_detection:face_detection_short_range_gpu",
+        "//mediapipe/modules/face_landmark:face_landmark_front_gpu",
+        "//mediapipe/gpu:image_frame_to_gpu_buffer_calculator",
+        "//mediapipe/calculators/image:color_convert_calculator",
     ],
 )
 
 cc_library(
     name = "builtin_task_graphs",
     deps = [
-        "//mediapipe/tasks/cc/vision/gesture_recognizer:gesture_recognizer_graph",
-        "//mediapipe/tasks/cc/vision/image_classifier:image_classifier_graph",
-        "//mediapipe/tasks/cc/vision/image_segmenter:image_segmenter_graph",
         "//mediapipe/tasks/cc/vision/object_detector:object_detector_graph",
-    ] + select({
-        # TODO: Build text_classifier_graph on Windows.
-        # TODO: Build audio_classifier_graph on Windows.
-        "//mediapipe:windows": [],
-        "//conditions:default": [
-            "//mediapipe/tasks/cc/audio/audio_classifier:audio_classifier_graph",
-            "//mediapipe/tasks/cc/text/text_classifier:text_classifier_graph",
-        ],
-    }),
+    ],
 )
 
 py_library(

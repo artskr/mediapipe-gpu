@@ -59,6 +59,18 @@ output_stream: "ROIS_FROM_LANDMARKS:face_rects_from_landmarks"
 # (std::vector<NormalizedRect>)
 output_stream: "ROIS_FROM_DETECTIONS:face_rects_from_detections"
 
+node: {
+  calculator: "ColorConvertCalculator"
+  input_stream: "RGB_IN:image"
+  output_stream: "RGBA_OUT:image_rgba"
+}
+
+node: {
+  calculator: "ImageFrameToGpuBufferCalculator"
+  input_stream: "image_rgba"
+  output_stream: "image_gpu"
+}
+
 # When the optional input side packet "use_prev_landmarks" is either absent or
 # set to true, uses the landmarks on the previous image to help localize
 # landmarks on the current image.
@@ -88,7 +100,7 @@ node {
 # round of face detection.
 node {
   calculator: "GateCalculator"
-  input_stream: "image"
+  input_stream: "image_gpu"
   input_stream: "DISALLOW:prev_has_enough_faces"
   output_stream: "gated_image"
   options: {
@@ -172,7 +184,7 @@ node {
 # Calculate size of the image.
 node {
   calculator: "ImagePropertiesCalculator"
-  input_stream: "IMAGE_GPU:image"
+  input_stream: "IMAGE_GPU:image_gpu"
   output_stream: "SIZE:image_size"
 }
 
@@ -184,7 +196,7 @@ node {
 node {
   calculator: "BeginLoopNormalizedRectCalculator"
   input_stream: "ITERABLE:face_rects"
-  input_stream: "CLONE:0:image"
+  input_stream: "CLONE:0:image_gpu"
   input_stream: "CLONE:1:image_size"
   output_stream: "ITEM:face_rect"
   output_stream: "CLONE:0:landmarks_loop_image"
@@ -237,7 +249,7 @@ node {
 # timestamp bound update occurs to jump start the feedback loop.
 node {
   calculator: "PreviousLoopbackCalculator"
-  input_stream: "MAIN:image"
+  input_stream: "MAIN:image_gpu"
   input_stream: "LOOP:face_rects_from_landmarks"
   input_stream_info: {
     tag_index: "LOOP"

@@ -36,22 +36,19 @@ limitations under the License.
 #include "mediapipe/framework/port/opencv_imgproc_inc.h"
 #include "mediapipe/framework/port/status_macros.h"
 #include "mediapipe/tasks/cc/components/calculators/tensor/tensors_to_segmentation_calculator.pb.h"
-#include "mediapipe/tasks/cc/components/proto/segmenter_options.pb.h"
+#include "mediapipe/tasks/cc/components/segmenter_options.pb.h"
 #include "mediapipe/tasks/cc/vision/utils/image_utils.h"
 #include "mediapipe/util/label_map.pb.h"
 
 namespace mediapipe {
-namespace tasks {
+namespace api2 {
 
 namespace {
 
 using ::mediapipe::Image;
 using ::mediapipe::ImageFrameSharedPtr;
-using ::mediapipe::api2::Input;
-using ::mediapipe::api2::Node;
-using ::mediapipe::api2::Output;
+using ::mediapipe::tasks::SegmenterOptions;
 using ::mediapipe::tasks::TensorsToSegmentationCalculatorOptions;
-using ::mediapipe::tasks::components::proto::SegmenterOptions;
 using ::mediapipe::tasks::vision::GetImageLikeTensorShape;
 using ::mediapipe::tasks::vision::Shape;
 
@@ -257,7 +254,7 @@ std::vector<Image> TensorsToSegmentationCalculator::GetSegmentationResult(
   return segmented_masks;
 }
 
-MEDIAPIPE_REGISTER_NODE(::mediapipe::tasks::TensorsToSegmentationCalculator);
+MEDIAPIPE_REGISTER_NODE(TensorsToSegmentationCalculator);
 
-}  // namespace tasks
+}  // namespace api2
 }  // namespace mediapipe

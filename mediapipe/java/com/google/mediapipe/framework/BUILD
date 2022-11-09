@@ -34,7 +34,6 @@ android_library(
 android_library(
     name = "android_framework_no_mff",
     proguard_specs = [":proguard.pgcfg"],
-    visibility = ["//visibility:public"],
     exports = [
         ":android_framework_no_proguard",
     ],
@@ -58,7 +57,6 @@ android_library(
     ],
     deps = [
         ":android_core",
-        "//mediapipe/java/com/google/mediapipe/framework/image",
         "//third_party:androidx_annotation",
         "//third_party:androidx_legacy_support_v4",
         "@maven//:com_google_code_findbugs_jsr305",
@@ -77,7 +75,6 @@ android_library(
     srcs = glob(
         ["**/*.java"],
         exclude = [
-            "image/**",
             "Android*",
             "AssetCache.java",
             "AssetCacheDbHelper.java",

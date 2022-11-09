@@ -113,6 +113,8 @@ cmake_external(
         "WITH_PNG": "ON",
         "WITH_TIFF": "ON",
         "WITH_WEBP": "OFF",
+        "WITH_OPENEXR": "OFF",
+        "WITH_IPP": "OFF",
         # Optimization flags
         "CV_ENABLE_INTRINSICS": "ON",
         "WITH_EIGEN": "ON",

@@ -18,7 +18,6 @@
 #include "mediapipe/framework/port/gmock.h"
 #include "mediapipe/framework/port/gtest.h"
 #include "mediapipe/framework/tool/test_util.h"
-#include "mediapipe/gpu/gpu_buffer_storage_ahwb.h"
 #include "mediapipe/gpu/gpu_buffer_storage_image_frame.h"
 #include "mediapipe/gpu/gpu_test_base.h"
 #include "stb_image.h"

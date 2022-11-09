@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <functional>
 #include <initializer_list>
-#include <numeric>
 #include <tuple>
 #include <type_traits>
 #include <utility>
@@ -31,12 +30,11 @@
 #if MEDIAPIPE_METAL_ENABLED
 #import <Metal/Metal.h>
 #endif  // MEDIAPIPE_METAL_ENABLED
-#ifndef MEDIAPIPE_NO_JNI
+
 #if __ANDROID_API__ >= 26 || defined(__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__)
 #define MEDIAPIPE_TENSOR_USE_AHWB 1
 #endif  // __ANDROID_API__ >= 26 ||
         // defined(__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__)
-#endif  // MEDIAPIPE_NO_JNI
 
 #ifdef MEDIAPIPE_TENSOR_USE_AHWB
 #include <android/hardware_buffer.h>
@@ -44,6 +42,7 @@
 #include "third_party/GL/gl/include/EGL/egl.h"
 #include "third_party/GL/gl/include/EGL/eglext.h"
 #endif  // MEDIAPIPE_TENSOR_USE_AHWB
+
 #if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
 #include "mediapipe/gpu/gl_base.h"
 #include "mediapipe/gpu/gl_context.h"
@@ -90,23 +89,15 @@ class Tensor {
 
  public:
   // No resources are allocated here.
-  enum class ElementType {
-    kNone,
-    kFloat16,
-    kFloat32,
-    kUInt8,
-    kInt8,
-    kInt32,
-    kChar,
-    kBool
-  };
+  enum class ElementType { kNone, kFloat16, kFloat32, kUInt8, kInt8, kInt32 };
   struct Shape {
     Shape() = default;
     Shape(std::initializer_list<int> dimensions) : dims(dimensions) {}
     Shape(const std::vector<int>& dimensions) : dims(dimensions) {}
     int num_elements() const {
-      return std::accumulate(dims.begin(), dims.end(), 1,
-                             std::multiplies<int>());
+      int res = dims.empty() ? 0 : 1;
+      std::for_each(dims.begin(), dims.end(), [&res](int i) { res *= i; });
+      return res;
     }
     std::vector<int> dims;
   };
@@ -328,10 +319,6 @@ class Tensor {
         return 1;
       case ElementType::kInt32:
         return sizeof(int32_t);
-      case ElementType::kChar:
-        return sizeof(char);
-      case ElementType::kBool:
-        return sizeof(bool);
     }
   }
   int bytes() const { return shape_.num_elements() * element_size(); }
