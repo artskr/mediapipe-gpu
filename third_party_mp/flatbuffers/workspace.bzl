@@ -1,6 +1,6 @@
 """Loads the Flatbuffers library, used by TF Lite."""
 
-load("//third_party:repo.bzl", "third_party_http_archive")
+load("//third_party_mp:repo.bzl", "third_party_http_archive")
 
 def repo():
     third_party_http_archive(
@@ -11,9 +11,9 @@ def repo():
             "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/flatbuffers/archive/v2.0.6.tar.gz",
             "https://github.com/google/flatbuffers/archive/v2.0.6.tar.gz",
         ],
-        build_file = "//third_party/flatbuffers:BUILD.bazel",
+        build_file = "//third_party_mp/flatbuffers:BUILD.bazel",
         delete = ["build_defs.bzl", "BUILD.bazel"],
         link_files = {
-            "//third_party/flatbuffers:build_defs.bzl": "build_defs.bzl",
+            "//third_party_mp/flatbuffers:build_defs.bzl": "build_defs.bzl",
         },
     )

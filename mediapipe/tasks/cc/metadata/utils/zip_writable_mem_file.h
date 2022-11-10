@@ -34,7 +34,7 @@ namespace metadata {
 // This class is NOT thread-safe.
 //
 // [1]:
-// https://github.com/google/libkml/blob/master/third_party/zlib-1.2.3/contrib/minizip/iomem_simple.c
+// https://github.com/google/libkml/blob/master/third_party_mp/zlib-1.2.3/contrib/minizip/iomem_simple.c
 class ZipWritableMemFile {
  public:
   // Constructs an in-memory writable zip file from a buffer. The provided

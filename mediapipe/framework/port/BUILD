@@ -96,7 +96,7 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "//third_party:glog",
+        "//third_party_mp:glog",
         "@com_google_absl//absl/flags:flag",
     ],
 )
@@ -207,7 +207,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//mediapipe/framework:port",
-        "//third_party:glog",
+        "//third_party_mp:glog",
         "@com_google_absl//absl/time",
     ],
 )
@@ -246,7 +246,7 @@ cc_library(
     hdrs = ["opencv_core_inc.h"],
     visibility = ["//visibility:public"],
     deps = [
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 
@@ -256,7 +256,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":opencv_core",
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 
@@ -266,7 +266,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":opencv_core",
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 
@@ -276,7 +276,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":opencv_core",
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 
@@ -287,7 +287,7 @@ cc_library(
     deps = [
         ":opencv_core",
         "//mediapipe/framework:port",
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 
@@ -297,7 +297,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":opencv_core",
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 
@@ -307,7 +307,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":opencv_core",
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
     ],
 )
 

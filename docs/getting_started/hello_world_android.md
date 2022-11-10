@@ -7,10 +7,12 @@ nav_order: 1
 ---
 
 # Hello World! on Android
+
 {: .no_toc }
 
 1. TOC
-{:toc}
+   {:toc}
+
 ---
 
 ## Introduction
@@ -98,15 +100,14 @@ will refer to this path as `$APPLICATION_PATH` throughout the codelab.
 
 Note that in the path to the application:
 
-*   The application is named `helloworld`.
-*   The `$PACKAGE_PATH` of the application is
-    `com.google.mediapipe.apps.basic`. This is used in code snippets in this
-    tutorial, so please remember to use your own `$PACKAGE_PATH` when you
-    copy/use the code snippets.
+- The application is named `helloworld`.
+- The `$PACKAGE_PATH` of the application is
+  `com.google.mediapipe.apps.basic`. This is used in code snippets in this
+  tutorial, so please remember to use your own `$PACKAGE_PATH` when you
+  copy/use the code snippets.
 
 Add a file `activity_main.xml` to `$APPLICATION_PATH/res/layout`. This displays
-a [`TextView`] on the full screen of the application with the string `Hello
-World!`:
+a [`TextView`] on the full screen of the application with the string `Hello World!`:
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -219,8 +220,8 @@ android_library(
     manifest = "AndroidManifest.xml",
     resource_files = glob(["res/**"]),
     deps = [
-        "//third_party:android_constraint_layout",
-        "//third_party:androidx_appcompat",
+        "//third_party_mp:android_constraint_layout",
+        "//third_party_mp:androidx_appcompat",
     ],
 )
 
@@ -591,8 +592,7 @@ previewDisplayView
 ```
 
 In this code block, we add a custom [`SurfaceHolder.Callback`] to
-`previewDisplayView` and implement the `surfaceChanged(SurfaceHolder holder, int
-format, int width, int height)` function to compute an appropriate display size
+`previewDisplayView` and implement the `surfaceChanged(SurfaceHolder holder, int format, int width, int height)` function to compute an appropriate display size
 of the camera frames on the device screen and to tie the `previewFrameTexture`
 object and send frames of the computed `displaySize` to the `converter`.
 
@@ -758,21 +758,21 @@ feed! Congrats!
 If you ran into any issues, please see the full code of the tutorial
 [here](https://github.com/google/mediapipe/tree/master/mediapipe/examples/android/src/java/com/google/mediapipe/apps/basic).
 
-[`ApplicationInfo`]:https://developer.android.com/reference/android/content/pm/ApplicationInfo
-[`AndroidAssetUtil`]:https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/framework/AndroidAssetUtil.java
-[Bazel]:https://bazel.build/
-[`CameraHelper`]:https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/CameraHelper.java
-[CameraX]:https://developer.android.com/training/camerax
-[`CameraXPreviewHelper`]:https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/CameraXPreviewHelper.java
-[developer options]:https://developer.android.com/studio/debug/dev-options
-[`edge_detection_mobile_gpu.pbtxt`]:https://github.com/google/mediapipe/tree/master/mediapipe/graphs/edge_detection/edge_detection_mobile_gpu.pbtxt
-[`EglManager`]:https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/glutil/EglManager.java
-[`ExternalTextureConverter`]:https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/ExternalTextureConverter.java
-[`FrameLayout`]:https://developer.android.com/reference/android/widget/FrameLayout
-[`FrameProcessor`]:https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/FrameProcessor.java
-[`PermissionHelper`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/PermissionHelper.java
-[`SurfaceHolder.Callback`]:https://developer.android.com/reference/android/view/SurfaceHolder.Callback.html
-[`SurfaceView`]:https://developer.android.com/reference/android/view/SurfaceView
-[`SurfaceView`]:https://developer.android.com/reference/android/view/SurfaceView
-[`SurfaceTexture`]:https://developer.android.com/reference/android/graphics/SurfaceTexture
-[`TextView`]:https://developer.android.com/reference/android/widget/TextView
+[`applicationinfo`]: https://developer.android.com/reference/android/content/pm/ApplicationInfo
+[`androidassetutil`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/framework/AndroidAssetUtil.java
+[bazel]: https://bazel.build/
+[`camerahelper`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/CameraHelper.java
+[camerax]: https://developer.android.com/training/camerax
+[`cameraxpreviewhelper`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/CameraXPreviewHelper.java
+[developer options]: https://developer.android.com/studio/debug/dev-options
+[`edge_detection_mobile_gpu.pbtxt`]: https://github.com/google/mediapipe/tree/master/mediapipe/graphs/edge_detection/edge_detection_mobile_gpu.pbtxt
+[`eglmanager`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/glutil/EglManager.java
+[`externaltextureconverter`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/ExternalTextureConverter.java
+[`framelayout`]: https://developer.android.com/reference/android/widget/FrameLayout
+[`frameprocessor`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/FrameProcessor.java
+[`permissionhelper`]: https://github.com/google/mediapipe/tree/master/mediapipe/java/com/google/mediapipe/components/PermissionHelper.java
+[`surfaceholder.callback`]: https://developer.android.com/reference/android/view/SurfaceHolder.Callback.html
+[`surfaceview`]: https://developer.android.com/reference/android/view/SurfaceView
+[`surfaceview`]: https://developer.android.com/reference/android/view/SurfaceView
+[`surfacetexture`]: https://developer.android.com/reference/android/graphics/SurfaceTexture
+[`textview`]: https://developer.android.com/reference/android/widget/TextView

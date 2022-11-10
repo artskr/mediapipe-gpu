@@ -6,10 +6,12 @@ nav_order: 10
 ---
 
 # Troubleshooting
+
 {: .no_toc }
 
 1. TOC
-{:toc}
+   {:toc}
+
 ---
 
 ## Missing Python binary path
@@ -19,7 +21,7 @@ The error message:
 ```
 ERROR: An error occurred during the fetch of repository 'local_execution_config_python':
   Traceback (most recent call last):
-       File "/sandbox_path/external/org_tensorflow/third_party/py/python_configure.bzl", line 208
+       File "/sandbox_path/external/org_tensorflow/third_party_mp/py/python_configure.bzl", line 208
                get_python_bin(repository_ctx)
     ...
 Repository command failed
@@ -110,9 +112,9 @@ after running `pip install mediapipe` usually indicates that there is no qualifi
 Please note that MediaPipe Python PyPI officially supports the **64-bit**
 version of Python 3.7 to 3.10 on the following OS:
 
--   x86_64 Linux
--   x86_64 macOS 10.15+
--   amd64 Windows
+- x86_64 Linux
+- x86_64 macOS 10.15+
+- amd64 Windows
 
 If the OS is currently supported and you still see this error, please make sure
 that both the Python and pip binary are for Python 3.7 to 3.10. Otherwise,
@@ -263,15 +265,15 @@ calculators designed specifically for this purpose such as
 [`FlowLimiterCalculator`] as described in
 [`How to process realtime input streams`].
 
-[`CalculatorGraphConfig`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator.proto
-[`CalculatorGraphConfig::max_queue_size`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator.proto
-[`CalculatorGraphConfig::report_deadlock`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator.proto
-[`REGISTER_CALCULATOR`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_registry.h
+[`calculatorgraphconfig`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator.proto
+[`calculatorgraphconfig::max_queue_size`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator.proto
+[`calculatorgraphconfig::report_deadlock`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator.proto
+[`register_calculator`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_registry.h
 [`registration.h`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/deps/registration.h
-[`CalculatorGraph::CloseAllPacketSources`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_graph.h
-[`CalculatorGraph::Cancel`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_graph.h
-[`CalculatorGraph::WaitUntilDone`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_graph.h
-[`Timestamp::Done`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/timestamp.h
-[`CalculatorBase::Close`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_base.h
-[`FlowLimiterCalculator`]: https://github.com/google/mediapipe/tree/master/mediapipe/calculators/core/flow_limiter_calculator.cc
-[`How to process realtime input streams`]: faq.md#how-to-process-realtime-input-streams
+[`calculatorgraph::closeallpacketsources`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_graph.h
+[`calculatorgraph::cancel`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_graph.h
+[`calculatorgraph::waituntildone`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_graph.h
+[`timestamp::done`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/timestamp.h
+[`calculatorbase::close`]: https://github.com/google/mediapipe/tree/master/mediapipe/framework/calculator_base.h
+[`flowlimitercalculator`]: https://github.com/google/mediapipe/tree/master/mediapipe/calculators/core/flow_limiter_calculator.cc
+[`how to process realtime input streams`]: faq.md#how-to-process-realtime-input-streams

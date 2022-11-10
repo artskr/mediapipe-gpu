@@ -6,10 +6,12 @@ nav_order: 6
 ---
 
 # Installation
+
 {: .no_toc }
 
 1. TOC
-{:toc}
+   {:toc}
+
 ---
 
 Note: To interoperate with OpenCV, OpenCV 3.x to 4.1 are preferred. OpenCV
@@ -20,8 +22,7 @@ Note: If you plan to use TensorFlow calculators and example apps, there is a
 known issue with gcc and g++ version 6.3 and 7.3. Please use other versions.
 
 Note: To make Mediapipe work with TensorFlow, please set Python 3.7 as the
-default Python version and install the Python "six" library by running `pip3
-install --user six`.
+default Python version and install the Python "six" library by running `pip3 install --user six`.
 
 ## Installing on Debian and Ubuntu
 
@@ -46,16 +47,16 @@ install --user six`.
     **Option 1**. Use package manager tool to install the pre-compiled OpenCV
     libraries. FFmpeg will be installed via `libopencv-video-dev`.
 
-    OS                   | OpenCV
-    -------------------- | ------
-    Debian 9 (stretch)   | 2.4
-    Debian 10 (buster)   | 3.2
-    Debian 11 (bullseye) | 4.5
-    Ubuntu 16.04 LTS     | 2.4
-    Ubuntu 18.04 LTS     | 3.2
-    Ubuntu 20.04 LTS     | 4.2
-    Ubuntu 20.04 LTS     | 4.2
-    Ubuntu 21.04         | 4.5
+    | OS                   | OpenCV |
+    | -------------------- | ------ |
+    | Debian 9 (stretch)   | 2.4    |
+    | Debian 10 (buster)   | 3.2    |
+    | Debian 11 (bullseye) | 4.5    |
+    | Ubuntu 16.04 LTS     | 2.4    |
+    | Ubuntu 18.04 LTS     | 3.2    |
+    | Ubuntu 20.04 LTS     | 4.2    |
+    | Ubuntu 20.04 LTS     | 4.2    |
+    | Ubuntu 21.04         | 4.5    |
 
     ```bash
     $ sudo apt-get install -y \
@@ -74,7 +75,7 @@ install --user six`.
     # WORKSPACE
     new_local_repository(
       name = "linux_opencv",
-      build_file = "@//third_party:opencv_linux.BUILD",
+      build_file = "@//third_party_mp:opencv_linux.BUILD",
       path = "/usr",
     )
 
@@ -101,7 +102,7 @@ install --user six`.
     # WORKSPACE
     new_local_repository(
       name = "linux_opencv",
-      build_file = "@//third_party:opencv_linux.BUILD",
+      build_file = "@//third_party_mp:opencv_linux.BUILD",
       path = "/usr",
     )
 
@@ -153,7 +154,7 @@ install --user six`.
     # WORKSPACE
     new_local_repository(
       name = "linux_opencv",
-      build_file = "@//third_party:opencv_linux.BUILD",
+      build_file = "@//third_party_mp:opencv_linux.BUILD",
       path = "/usr/local",
     )
 
@@ -180,7 +181,7 @@ install --user six`.
     # WORKSPACE
     new_local_repository(
       name = "linux_opencv",
-      build_file = "@//third_party:opencv_linux.BUILD",
+      build_file = "@//third_party_mp:opencv_linux.BUILD",
       path = "/usr/local",
     )
 
@@ -214,7 +215,7 @@ install --user six`.
     # WORKSPACE
     new_local_repository(
       name = "linux_ffmpeg",
-      build_file = "@//third_party:ffmpeg_linux.BUILD",
+      build_file = "@//third_party_mp:ffmpeg_linux.BUILD",
       path = "/usr"
     )
 
@@ -317,13 +318,13 @@ build issues.
     ```bash
     new_local_repository(
         name = "linux_opencv",
-        build_file = "@//third_party:opencv_linux.BUILD",
+        build_file = "@//third_party_mp:opencv_linux.BUILD",
         path = "/usr/local",
     )
 
     new_local_repository(
         name = "linux_ffmpeg",
-        build_file = "@//third_party:ffmpeg_linux.BUILD",
+        build_file = "@//third_party_mp:ffmpeg_linux.BUILD",
         path = "/usr/local",
     )
 
@@ -403,9 +404,9 @@ build issues.
 
 1.  Prework:
 
-    *   Install [Homebrew](https://brew.sh).
-    *   Install [Xcode](https://developer.apple.com/xcode/) and its Command Line
-        Tools by `xcode-select --install`.
+    - Install [Homebrew](https://brew.sh).
+    - Install [Xcode](https://developer.apple.com/xcode/) and its Command Line
+      Tools by `xcode-select --install`.
 
 2.  Install Bazelisk.
 
@@ -445,13 +446,13 @@ build issues.
     ```bash
     new_local_repository(
         name = "macos_opencv",
-        build_file = "@//third_party:opencv_macos.BUILD",
+        build_file = "@//third_party_mp:opencv_macos.BUILD",
         path = "/opt",
     )
 
     new_local_repository(
         name = "macos_ffmpeg",
-        build_file = "@//third_party:ffmpeg_macos.BUILD",
+        build_file = "@//third_party_mp:ffmpeg_macos.BUILD",
         path = "/opt",
     )
 
@@ -605,15 +606,14 @@ next section.
     ```
     new_local_repository(
         name = "windows_opencv",
-        build_file = "@//third_party:opencv_windows.BUILD",
+        build_file = "@//third_party_mp:opencv_windows.BUILD",
         path = "C:\\<path to opencv>\\build",
     )
     ```
 
 9.  Run the [Hello World! in C++ example](./hello_world_cpp.md).
 
-    Note: For building MediaPipe on Windows, please add `--action_env
-    PYTHON_BIN_PATH="C://path//to//python.exe"` to the build command.
+    Note: For building MediaPipe on Windows, please add `--action_env PYTHON_BIN_PATH="C://path//to//python.exe"` to the build command.
     Alternatively, you can follow
     [issue 724](https://github.com/google/mediapipe/issues/724) to fix the
     python configuration manually.
@@ -712,7 +712,7 @@ cameras. Alternatively, you use a video file as input.
     ```bash
     new_local_repository(
         name = "linux_opencv",
-        build_file = "@//third_party:opencv_linux.BUILD",
+        build_file = "@//third_party_mp:opencv_linux.BUILD",
         path = "/usr/local",
     )
 
@@ -852,9 +852,9 @@ common build issues.
     docker run -i -t mediapipe:latest
     ``` -->
 
-[`WORKSPACE`]: https://github.com/google/mediapipe/blob/master/WORKSPACE
-[`opencv_linux.BUILD`]: https://github.com/google/mediapipe/tree/master/third_party/opencv_linux.BUILD
-[`ffmpeg_linux.BUILD`]:https://github.com/google/mediapipe/tree/master/third_party/ffmpeg_linux.BUILD
-[`opencv_macos.BUILD`]: https://github.com/google/mediapipe/tree/master/third_party/opencv_macos.BUILD
-[`ffmpeg_macos.BUILD`]:https://github.com/google/mediapipe/tree/master/third_party/ffmpeg_macos.BUILD
+[`workspace`]: https://github.com/google/mediapipe/blob/master/WORKSPACE
+[`opencv_linux.build`]: https://github.com/google/mediapipe/tree/master/third_party_mp/opencv_linux.BUILD
+[`ffmpeg_linux.build`]: https://github.com/google/mediapipe/tree/master/third_party_mp/ffmpeg_linux.BUILD
+[`opencv_macos.build`]: https://github.com/google/mediapipe/tree/master/third_party_mp/opencv_macos.BUILD
+[`ffmpeg_macos.build`]: https://github.com/google/mediapipe/tree/master/third_party_mp/ffmpeg_macos.BUILD
 [`setup_opencv.sh`]: https://github.com/google/mediapipe/blob/master/setup_opencv.sh

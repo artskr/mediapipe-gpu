@@ -93,7 +93,7 @@ cc_library(
     # Use this library through "mediapipe/framework/port:gtest_main".
     visibility = [
         "//mediapipe/framework/port:__pkg__",
-        "//third_party/visionai/algorithms/tracking:__pkg__",
+        "//third_party_mp/visionai/algorithms/tracking:__pkg__",
     ],
     deps = [
         "//mediapipe/framework/port:core_proto",

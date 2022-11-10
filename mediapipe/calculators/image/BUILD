@@ -817,7 +817,7 @@ cc_library(
         "//mediapipe/framework/formats:image",
         "//mediapipe/framework/formats:image_frame",
         "//mediapipe/framework/formats:yuv_image",
-        "//third_party/libyuv",
+        "//third_party_mp/libyuv",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/strings:str_format",
     ],

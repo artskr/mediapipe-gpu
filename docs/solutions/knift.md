@@ -6,6 +6,7 @@ nav_order: 13
 ---
 
 # MediaPipe KNIFT
+
 {: .no_toc }
 
 <details close markdown="block">
@@ -23,9 +24,9 @@ nav_order: 13
 MediaPipe KNIFT is a template-based feature matching solution using KNIFT
 (Keypoint Neural Invariant Feature Transform).
 
-![knift_stop_sign.gif](https://mediapipe.dev/images/knift_stop_sign.gif)                     |
-:-----------------------------------------------------------------------: |
-*Fig 1. Matching a real Stop Sign with a Stop Sign template using KNIFT.* |
+| ![knift_stop_sign.gif](https://mediapipe.dev/images/knift_stop_sign.gif)  |
+| :-----------------------------------------------------------------------: |
+| _Fig 1. Matching a real Stop Sign with a Stop Sign template using KNIFT._ |
 
 In many computer vision applications, a crucial building block is to establish
 reliable correspondences between different views of an object or scene, forming
@@ -49,16 +50,16 @@ real-world spatial transformations and lighting changes in the embedding. As a
 result, the KNIFT feature descriptor appears to be more robust, not only to
 [affine distortions](https://en.wikipedia.org/wiki/Affine_transformation), but
 to some degree of
-[perspective distortions](https://en.wikipedia.org/wiki/Perspective_distortion_\(photography\))
+[perspective distortions](<https://en.wikipedia.org/wiki/Perspective_distortion_(photography)>)
 as well.
 
 For more information, please see
 [MediaPipe KNIFT: Template-based feature matching](https://developers.googleblog.com/2020/04/mediapipe-knift-template-based-feature-matching.html)
 in Google Developers Blog.
 
-![template_matching_mobile_cpu.gif](https://mediapipe.dev/images/mobile/template_matching_android_cpu.gif) |
-:-------------------------------------------------------------------------------------: |
-*Fig 2. Matching US dollar bills using KNIFT.*                                          |
+| ![template_matching_mobile_cpu.gif](https://mediapipe.dev/images/mobile/template_matching_android_cpu.gif) |
+| :--------------------------------------------------------------------------------------------------------: |
+|                               _Fig 2. Matching US dollar bills using KNIFT._                               |
 
 ## Example Apps
 
@@ -80,11 +81,11 @@ Note: To visualize a graph, copy the graph and paste it into
 to visualize its associated subgraphs, please see
 [visualizer documentation](../tools/visualizer.md).
 
-*   Graph:
-    [`mediapipe/graphs/template_matching/template_matching_mobile_cpu.pbtxt`](https://github.com/google/mediapipe/tree/master/mediapipe/graphs/template_matching/template_matching_mobile_cpu.pbtxt)
-*   Android target:
-    [(or download prebuilt ARM64 APK)](https://drive.google.com/open?id=1tSWRfes9rAM4NrzmJBplguNQQvaeBZSa)
-    [`mediapipe/examples/android/src/java/com/google/mediapipe/apps/templatematchingcpu:templatematchingcpu`](https://github.com/google/mediapipe/tree/master/mediapipe/examples/android/src/java/com/google/mediapipe/apps/templatematchingcpu/BUILD)
+- Graph:
+  [`mediapipe/graphs/template_matching/template_matching_mobile_cpu.pbtxt`](https://github.com/google/mediapipe/tree/master/mediapipe/graphs/template_matching/template_matching_mobile_cpu.pbtxt)
+- Android target:
+  [(or download prebuilt ARM64 APK)](https://drive.google.com/open?id=1tSWRfes9rAM4NrzmJBplguNQQvaeBZSa)
+  [`mediapipe/examples/android/src/java/com/google/mediapipe/apps/templatematchingcpu:templatematchingcpu`](https://github.com/google/mediapipe/tree/master/mediapipe/examples/android/src/java/com/google/mediapipe/apps/templatematchingcpu/BUILD)
 
 Note: MediaPipe uses OpenCV 3 by default. However, because of
 [issues](https://github.com/opencv/opencv/issues/11488) between NDK 17+ and
@@ -96,7 +97,7 @@ OpenCV 4, and switch back to OpenCV 3 afterwards.
 ```bash
 # Switch to OpenCV 4
 sed -i -e 's:3.4.3/opencv-3.4.3:4.0.1/opencv-4.0.1:g' WORKSPACE
-sed -i -e 's:libopencv_java3:libopencv_java4:g' third_party/opencv_android.BUILD
+sed -i -e 's:libopencv_java3:libopencv_java4:g' third_party_mp/opencv_android.BUILD
 
 # Build and install app
 bazel build -c opt --config=android_arm64 mediapipe/examples/android/src/java/com/google/mediapipe/apps/templatematchingcpu
@@ -104,7 +105,7 @@ adb install -r bazel-bin/mediapipe/examples/android/src/java/com/google/mediapip
 
 # Switch back to OpenCV 3
 sed -i -e 's:4.0.1/opencv-4.0.1:3.4.3/opencv-3.4.3:g' WORKSPACE
-sed -i -e 's:libopencv_java4:libopencv_java3:g' third_party/opencv_android.BUILD
+sed -i -e 's:libopencv_java4:libopencv_java3:g' third_party_mp/opencv_android.BUILD
 ```
 
 Tip: The example uses the TFLite
@@ -115,34 +116,34 @@ to run regular TFLite inference.
 
 ### Matching Your Own Template Images
 
-*   Step 1: Put all template images in a single directory.
+- Step 1: Put all template images in a single directory.
 
-*   Step 2: To build the index file for all templates in the directory, run
+- Step 2: To build the index file for all templates in the directory, run
 
-    ```bash
-    bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 \
-    mediapipe/examples/desktop/template_matching:template_matching_tflite
-    ```
+  ```bash
+  bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 \
+  mediapipe/examples/desktop/template_matching:template_matching_tflite
+  ```
 
-    ```bash
-    bazel-bin/mediapipe/examples/desktop/template_matching/template_matching_tflite \
-    --calculator_graph_config_file=mediapipe/graphs/template_matching/index_building.pbtxt \
-    --input_side_packets="file_directory=<template image directory>,file_suffix=png,output_index_filename=<output index filename>"
-    ```
+  ```bash
+  bazel-bin/mediapipe/examples/desktop/template_matching/template_matching_tflite \
+  --calculator_graph_config_file=mediapipe/graphs/template_matching/index_building.pbtxt \
+  --input_side_packets="file_directory=<template image directory>,file_suffix=png,output_index_filename=<output index filename>"
+  ```
 
-    The output index file includes the extracted KNIFT features.
+  The output index file includes the extracted KNIFT features.
 
-*   Step 3: Replace
-    [mediapipe/models/knift_index.pb](https://github.com/google/mediapipe/tree/master/mediapipe/models/knift_index.pb)
-    with the index file you generated, and update
-    [mediapipe/models/knift_labelmap.txt](https://github.com/google/mediapipe/tree/master/mediapipe/models/knift_labelmap.txt)
-    with your own template names.
+- Step 3: Replace
+  [mediapipe/models/knift_index.pb](https://github.com/google/mediapipe/tree/master/mediapipe/models/knift_index.pb)
+  with the index file you generated, and update
+  [mediapipe/models/knift_labelmap.txt](https://github.com/google/mediapipe/tree/master/mediapipe/models/knift_labelmap.txt)
+  with your own template names.
 
-*   Step 4: Build and run the app using the same instructions in
-    [Matching US Dollar Bills](#matching-us-dollar-bills).
+- Step 4: Build and run the app using the same instructions in
+  [Matching US Dollar Bills](#matching-us-dollar-bills).
 
 ## Resources
 
-*   Google Developers Blog:
-    [MediaPipe KNIFT: Template-based feature matching](https://developers.googleblog.com/2020/04/mediapipe-knift-template-based-feature-matching.html)
-*   [Models and model cards](./models.md#knift)
+- Google Developers Blog:
+  [MediaPipe KNIFT: Template-based feature matching](https://developers.googleblog.com/2020/04/mediapipe-knift-template-based-feature-matching.html)
+- [Models and model cards](./models.md#knift)

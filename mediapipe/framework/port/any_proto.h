@@ -24,7 +24,7 @@ namespace protobuf {
 // The full definition of protobuf::Any for most platforms.
 using Any = google::protobuf::Any;
 #else
-// A dummy definition of protobuf::Any for third_party/protobuf:protobuf-lite.
+// A dummy definition of protobuf::Any for third_party_mp/protobuf:protobuf-lite.
 class Any {
  public:
   bool UnpackTo(proto_ns::Message* message) const { return false; }

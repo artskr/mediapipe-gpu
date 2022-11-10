@@ -120,7 +120,7 @@ android_library(
         ":use_chair_1stage": MANIFESTS_DIR + ":AndroidManifestChair.xml",
     }),
     deps = [
-        "//third_party:opencv",
+        "//third_party_mp:opencv",
         "@maven//:androidx_concurrent_concurrent_futures",
         "@maven//:com_google_guava_guava",
     ],

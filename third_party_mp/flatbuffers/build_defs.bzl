@@ -152,11 +152,11 @@ def flatbuffer_cc_library(
         flatbuffer_cc_library(
             name = "my_fbs",
             srcs = [ "schemas/foo.fbs" ],
-            includes = [ "//third_party/bazz:bazz_fbs_includes" ],
+            includes = [ "//third_party_mp/bazz:bazz_fbs_includes" ],
         )
 
         In which foo.fbs includes a few files from the Fileset defined at
-        //third_party/bazz:bazz_fbs_includes. When compiling the library that
+        //third_party_mp/bazz:bazz_fbs_includes. When compiling the library that
         includes foo_generated.h, and therefore has my_fbs as a dependency, it
         will fail to find any of the bazz *_generated.h files unless you also
         add bazz's flatbuffer_cc_library to your own dependency list, e.g.:
@@ -165,7 +165,7 @@ def flatbuffer_cc_library(
             name = "my_lib",
             deps = [
                 ":my_fbs",
-                "//third_party/bazz:bazz_fbs"
+                "//third_party_mp/bazz:bazz_fbs"
             ],
         )
 

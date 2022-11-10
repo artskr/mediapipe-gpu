@@ -54,7 +54,7 @@ void GetExtension(const CalculatorOptions& options, T* result) {
 template <class T>
 void GetNodeOptions(const CalculatorGraphConfig::Node& node_config, T* result) {
 #if defined(MEDIAPIPE_PROTO_LITE) && defined(MEDIAPIPE_PROTO_THIRD_PARTY)
-  // protobuf::Any is unavailable with third_party/protobuf:protobuf-lite.
+  // protobuf::Any is unavailable with third_party_mp/protobuf:protobuf-lite.
 #else
   for (const mediapipe::protobuf::Any& options : node_config.node_options()) {
     if (options.Is<T>()) {
@@ -67,7 +67,7 @@ void GetNodeOptions(const CalculatorGraphConfig::Node& node_config, T* result) {
 template <class T>
 void SetNodeOptions(CalculatorGraphConfig::Node& node_config, const T& value) {
 #if defined(MEDIAPIPE_PROTO_LITE) && defined(MEDIAPIPE_PROTO_THIRD_PARTY)
-  // protobuf::Any is unavailable with third_party/protobuf:protobuf-lite.
+  // protobuf::Any is unavailable with third_party_mp/protobuf:protobuf-lite.
 #else
   for (mediapipe::protobuf::Any& options :
        *node_config.mutable_node_options()) {

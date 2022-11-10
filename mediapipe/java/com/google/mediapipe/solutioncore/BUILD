@@ -20,7 +20,7 @@ android_library(
     name = "solution_info",
     srcs = ["SolutionInfo.java"],
     deps = [
-        "//third_party:autovalue",
+        "//third_party_mp:autovalue",
         "@maven//:com_google_guava_guava",
     ],
 )
@@ -42,7 +42,7 @@ android_library(
         ":logging",
         "//mediapipe/java/com/google/mediapipe/framework:android_framework",
         "//mediapipe/java/com/google/mediapipe/glutil",
-        "//third_party:autovalue",
+        "//third_party_mp:autovalue",
         "@com_google_protobuf//:protobuf_javalite",
         "@maven//:com_google_code_findbugs_jsr305",
         "@maven//:com_google_guava_guava",
@@ -98,7 +98,7 @@ android_library(
     visibility = ["//visibility:public"],
     deps = [
         ":solution_info",
-        "//third_party:autovalue",
+        "//third_party_mp:autovalue",
         "@maven//:com_google_guava_guava",
     ],
 )

@@ -40,7 +40,7 @@ android_library(
         "//mediapipe/framework/formats:landmark_java_proto_lite",
         "//mediapipe/java/com/google/mediapipe/framework:android_framework",
         "//mediapipe/java/com/google/mediapipe/solutioncore:solution_base",
-        "//third_party:autovalue",
+        "//third_party_mp:autovalue",
         "@maven//:androidx_annotation_annotation",
         "@maven//:com_google_code_findbugs_jsr305",
         "@maven//:com_google_guava_guava",

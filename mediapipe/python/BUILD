@@ -22,7 +22,7 @@ pybind_extension(
     name = "_framework_bindings",
     srcs = ["framework_bindings.cc"],
     linkopts = select({
-        "//third_party:opencv_source_build": [],
+        "//third_party_mp:opencv_source_build": [],
         "//conditions:default": [
             "-lopencv_core",
             "-lopencv_imgproc",

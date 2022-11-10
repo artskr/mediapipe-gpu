@@ -8,8 +8,8 @@
 #include "mediapipe/framework/port.h"
 #include "mediapipe/framework/port/logging.h"
 #include "mediapipe/gpu/gl_base.h"
-#include "third_party/GL/gl/include/EGL/egl.h"
-#include "third_party/GL/gl/include/EGL/eglext.h"
+#include "third_party_mp/GL/gl/include/EGL/egl.h"
+#include "third_party_mp/GL/gl/include/EGL/eglext.h"
 #endif  // MEDIAPIPE_TENSOR_USE_AHWB
 
 namespace mediapipe {

@@ -65,7 +65,7 @@ cc_library(
         "//mediapipe/framework/port:ret_check",
         "//mediapipe/framework/port:status",
         "//mediapipe/framework/tool:status_util",
-        "//third_party:libffmpeg",
+        "//third_party_mp:libffmpeg",
         "@com_google_absl//absl/base:endian",
         "@com_google_absl//absl/flags:flag",
         "@com_google_absl//absl/strings",

@@ -39,8 +39,8 @@
 #ifdef MEDIAPIPE_TENSOR_USE_AHWB
 #include <android/hardware_buffer.h>
 
-#include "third_party/GL/gl/include/EGL/egl.h"
-#include "third_party/GL/gl/include/EGL/eglext.h"
+#include "third_party_mp/GL/gl/include/EGL/egl.h"
+#include "third_party_mp/GL/gl/include/EGL/eglext.h"
 #endif  // MEDIAPIPE_TENSOR_USE_AHWB
 
 #if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30

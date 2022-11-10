@@ -34,13 +34,13 @@ set -e
 function switch_to_opencv_3() {
   echo "Switching to OpenCV 3"
   sed -i -e 's:4.0.1/opencv-4.0.1:3.4.3/opencv-3.4.3:g' WORKSPACE
-  sed -i -e 's:libopencv_java4:libopencv_java3:g' third_party/opencv_android.BUILD
+  sed -i -e 's:libopencv_java4:libopencv_java3:g' third_party_mp/opencv_android.BUILD
 }
 
 function switch_to_opencv_4() {
   echo "Switching to OpenCV 4"
   sed -i -e 's:3.4.3/opencv-3.4.3:4.0.1/opencv-4.0.1:g' WORKSPACE
-  sed -i -e 's:libopencv_java3:libopencv_java4:g' third_party/opencv_android.BUILD
+  sed -i -e 's:libopencv_java3:libopencv_java4:g' third_party_mp/opencv_android.BUILD
 }
 
 out_dir="."

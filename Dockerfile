@@ -13,13 +13,10 @@
 # limitations under the License.
 
 FROM nvidia/cudagl:11.1.1-devel-ubuntu20.04
-#FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
-#FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
-#FROM nvidia/cudagl:10.1-devel-ubuntu18.04
+
 MAINTAINER <mediapipe@google.com>
 
-WORKDIR /io
-WORKDIR /mediapipe
+COPY . /WET
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -27,7 +24,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 #RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 
 RUN apt-get update
-
 
 RUN apt-get install -y --no-install-recommends \
     build-essential \
@@ -61,18 +57,32 @@ RUN apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100 --slave /usr/bin/g++ g++ /usr/bin/g++-8
-RUN pip3 install --upgrade pip
-RUN pip3 install --upgrade setuptools
-RUN pip3 install wheel
-RUN pip3 install future
-RUN pip3 install --default-timeout=100 future
-RUN pip3 install gdown absl-py numpy opencv-contrib-python==4.3.0.38  protobuf==3.19.6
-RUN pip3 install six==1.14.0
-RUN pip3 install tensorflow==2.5.0
-RUN pip3 install tf_slim
+RUN python3.8 -m pip install -e code/
 
-RUN ln -s /usr/bin/python3.8 /usr/bin/python
+RUN python3.8 -m pip install -U pip \
+    && python3.8 -m pip install wheel \
+    && python3.8 -m install --upgrade setuptools \
+    && python3.8 -m install future \
+    && python3.8 -m pip install --default-timeout=100 future
+
+RUN python3.8 -m pip install -r code/requirementsDocker.txt --extra-index-url https://download.pytorch.org/whl/cu113
+RUN python3.8 -m pip install git+https://github.com/elliottzheng/face-detection.git@master
+RUN python3.8 -m pip uninstall -y opencv-python opencv-contrib-python
+
+RUN chmod +x code/third_party_mp/setup_opencv.sh
+RUN code/third_party_mp/setup_opencv.sh
+
+# Install cudnn
+ENV OS=ubuntu2004
+ENV cudnn_version=8.0.5.39
+ENV cuda_version=cuda11.1
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/cuda-${OS}.pin
+RUN mv cuda-${OS}.pin /etc/apt/preferences.d/cuda-repository-pin-600
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/7fa2af80.pub
+RUN add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/ /"
+RUN apt-get update
+RUN apt-get install libcudnn8=${cudnn_version}-1+${cuda_version}
+RUN apt-get install libcudnn8-dev=${cudnn_version}-1+${cuda_version}
 
 # Install bazel
 ARG BAZEL_VERSION=5.2.0
@@ -83,15 +93,23 @@ RUN mkdir /bazel && \
     /bazel/installer.sh  && \
     rm -f /bazel/installer.sh
 
-COPY . /mediapipe/
+RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
-# Install cudnn libraries (optional, not sure if speeds up)
-#RUN dpkg -i utils/libcudnn8_8.0.5.39-1+cuda11.1_amd64.deb  && dpkg -i utils/libcudnn8-dev_8.0.5.39-1+cuda11.1_amd64.deb
+WORKDIR /WET/code/third_party_mp/mediapipe-gpu
+RUN python setup.py install --link-opencv
+WORKDIR /WET
 
-# Build and install Mediapipe wheel
-RUN python setup.py gen_protos && python setup.py bdist_wheel
-RUN python -m pip install dist/*.whl
+RUN chmod +x data/download_example_data.sh
+RUN data/download_example_data.sh
 
-# If we want the docker image to contain the pre-built object_detection_offline_demo binary, do the following
-# RUN bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 mediapipe/examples/desktop/demo:object_detection_tensorflow_demo
+
+# Remove unnecessary apt files from the docker image
+RUN (apt-get autoremove -y; \
+    apt-get autoclean -y)
+
+# Force Qt windows used by OpenCV to show properly
+ENV QT_X11_NO_MITSHM=1
 ENV TF_CUDA_PATHS=/usr/local/cuda-11.1,/usr/lib/x86_64-linux-gnu,/usr/include
+ENV PATH=/usr/local/cuda-11.1/bin${PATH:+:${PATH}}
+ENV LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64,/usr/local/cuda-11.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+RUN ldconfig

@@ -30,7 +30,7 @@ http_archive(
     ],
     # Remove after https://github.com/abseil/abseil-cpp/issues/326 is solved.
     patches = [
-        "@//third_party:com_google_absl_f863b622fe13612433fdf43f76547d5edda0c93001.diff"
+        "@//third_party_mp:com_google_absl_f863b622fe13612433fdf43f76547d5edda0c93001.diff"
     ],
     patch_args = [
         "-p1",
@@ -74,7 +74,7 @@ http_archive(
     urls = ["https://github.com/google/benchmark/archive/refs/tags/v1.6.1.tar.gz"],
     strip_prefix = "benchmark-1.6.1",
     sha256 = "6132883bc8c9b0df5375b16ab520fac1a85dc9e4cf5be59480448ece74b278d4",
-    build_file = "@//third_party:benchmark.BUILD",
+    build_file = "@//third_party_mp:benchmark.BUILD",
 )
 
 # gflags needed by glog
@@ -98,12 +98,12 @@ http_archive(
     name = "com_github_glog_glog_no_gflags",
     strip_prefix = "glog-0a2e5931bd5ff22fd3bf8999eb8ce776f159cda6",
     sha256 = "58c9b3b6aaa4dd8b836c0fd8f65d0f941441fb95e27212c5eeb9979cfd3592ab",
-    build_file = "@//third_party:glog_no_gflags.BUILD",
+    build_file = "@//third_party_mp:glog_no_gflags.BUILD",
     urls = [
         "https://github.com/google/glog/archive/0a2e5931bd5ff22fd3bf8999eb8ce776f159cda6.zip",
     ],
     patches = [
-        "@//third_party:com_github_glog_glog_9779e5ea6ef59562b030248947f787d1256132ae.diff",
+        "@//third_party_mp:com_github_glog_glog_9779e5ea6ef59562b030248947f787d1256132ae.diff",
     ],
     patch_args = [
         "-p1",
@@ -115,7 +115,7 @@ http_archive(
     name = "easyexif",
     url = "https://github.com/mayanklahiri/easyexif/archive/master.zip",
     strip_prefix = "easyexif-master",
-    build_file = "@//third_party:easyexif.BUILD",
+    build_file = "@//third_party_mp:easyexif.BUILD",
 )
 
 # libyuv
@@ -123,7 +123,7 @@ http_archive(
     name = "libyuv",
     # Error: operand type mismatch for `vbroadcastss' caused by commit 8a13626e42f7fdcf3a6acbb0316760ee54cda7d8.
     urls = ["https://chromium.googlesource.com/libyuv/libyuv/+archive/2525698acba9bf9b701ba6b4d9584291a1f62257.tar.gz"],
-    build_file = "@//third_party:libyuv.BUILD",
+    build_file = "@//third_party_mp:libyuv.BUILD",
 )
 
 # Note: protobuf-javalite is no longer released as a separate download, it's included in the main Java download.
@@ -141,14 +141,14 @@ http_archive(
     strip_prefix = "protobuf-3.19.1",
     urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.19.1.tar.gz"],
     patches = [
-        "@//third_party:com_google_protobuf_fixes.diff"
+        "@//third_party_mp:com_google_protobuf_fixes.diff"
     ],
     patch_args = [
         "-p1",
     ],
 )
 
-load("//third_party/flatbuffers:workspace.bzl", flatbuffers = "repo")
+load("//third_party_mp/flatbuffers:workspace.bzl", flatbuffers = "repo")
 flatbuffers()
 
 http_archive(
@@ -176,8 +176,8 @@ http_archive(
         "https://github.com/tensorflow/text/archive/v2.2.0.zip",
     ],
     patches = [
-        "//third_party:tensorflow_text_remove_tf_deps.diff",
-        "//third_party:tensorflow_text_a0f49e63.diff",
+        "//third_party_mp:tensorflow_text_remove_tf_deps.diff",
+        "//third_party_mp:tensorflow_text_a0f49e63.diff",
     ],
     patch_args = ["-p1"],
     repo_mapping = {"@com_google_re2": "@com_googlesource_code_re2"},
@@ -225,7 +225,7 @@ http_archive(
     name = "ceres_solver",
     url = "https://github.com/ceres-solver/ceres-solver/archive/123fba61cf2611a3c8bddc9d91416db26b10b558.zip",
     patches = [
-        "@//third_party:ceres_solver_compatibility_fixes.diff"
+        "@//third_party_mp:ceres_solver_compatibility_fixes.diff"
     ],
     patch_args = [
         "-p1",
@@ -243,19 +243,19 @@ http_archive(
 
 new_local_repository(
     name = "linux_opencv",
-    build_file = "@//third_party:opencv_linux.BUILD",
+    build_file = "@//third_party_mp:opencv_linux.BUILD",
     path = "/usr",
 )
 
 new_local_repository(
     name = "linux_ffmpeg",
-    build_file = "@//third_party:ffmpeg_linux.BUILD",
+    build_file = "@//third_party_mp:ffmpeg_linux.BUILD",
     path = "/usr"
 )
 
 new_local_repository(
     name = "macos_opencv",
-    build_file = "@//third_party:opencv_macos.BUILD",
+    build_file = "@//third_party_mp:opencv_macos.BUILD",
     # For local MacOS builds, the path should point to an opencv@3 installation.
     # If you edit the path here, you will also need to update the corresponding
     # prefix in "opencv_macos.BUILD".
@@ -264,19 +264,19 @@ new_local_repository(
 
 new_local_repository(
     name = "macos_ffmpeg",
-    build_file = "@//third_party:ffmpeg_macos.BUILD",
+    build_file = "@//third_party_mp:ffmpeg_macos.BUILD",
     path = "/usr/local/opt/ffmpeg",
 )
 
 new_local_repository(
     name = "windows_opencv",
-    build_file = "@//third_party:opencv_windows.BUILD",
+    build_file = "@//third_party_mp:opencv_windows.BUILD",
     path = "C:\\opencv\\build",
 )
 
 http_archive(
     name = "android_opencv",
-    build_file = "@//third_party:opencv_android.BUILD",
+    build_file = "@//third_party_mp:opencv_android.BUILD",
     strip_prefix = "OpenCV-android-sdk",
     type = "zip",
     url = "https://github.com/opencv/opencv/releases/download/3.4.3/opencv-3.4.3-android-sdk.zip",
@@ -289,7 +289,7 @@ http_archive(
 http_archive(
     name = "ios_opencv",
     sha256 = "7dd536d06f59e6e1156b546bd581523d8df92ce83440002885ec5abc06558de2",
-    build_file = "@//third_party:opencv_ios.BUILD",
+    build_file = "@//third_party_mp:opencv_ios.BUILD",
     type = "zip",
     url = "https://github.com/opencv/opencv/releases/download/3.2.0/opencv-3.2.0-ios-framework.zip",
 )
@@ -299,9 +299,9 @@ http_archive(
     strip_prefix = "stb-b42009b3b9d4ca35bc703f5310eedc74f584be58",
     sha256 = "13a99ad430e930907f5611325ec384168a958bf7610e63e60e2fd8e7b7379610",
     urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
-    build_file = "@//third_party:stblib.BUILD",
+    build_file = "@//third_party_mp:stblib.BUILD",
     patches = [
-        "@//third_party:stb_image_impl.diff"
+        "@//third_party_mp:stb_image_impl.diff"
     ],
     patch_args = [
         "-p1",
@@ -316,7 +316,7 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_apple/releases/download/0.32.0/rules_apple.0.32.0.tar.gz",
     patches = [
         # Bypass checking ios unit test runner when building MP ios applications.
-        "@//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff"
+        "@//third_party_mp:build_bazel_rules_apple_bypass_test_runner_check.diff"
     ],
     patch_args = [
         "-p1",
@@ -359,7 +359,7 @@ http_archive(
     url = "https://github.com/google/google-toolbox-for-mac/archive/v2.2.1.zip",
     sha256 = "e3ac053813c989a88703556df4dc4466e424e30d32108433ed6beaec76ba4fdc",
     strip_prefix = "google-toolbox-for-mac-2.2.1",
-    build_file = "@//third_party:google_toolbox_for_mac.BUILD",
+    build_file = "@//third_party_mp:google_toolbox_for_mac.BUILD",
 )
 
 # Maven dependencies.
@@ -434,7 +434,7 @@ http_archive(
 # @zlib//:mini_zlib is available
 http_archive(
     name = "zlib",
-    build_file = "//third_party:zlib.BUILD",
+    build_file = "//third_party_mp:zlib.BUILD",
     sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
     strip_prefix = "zlib-1.2.11",
     urls = [
@@ -442,7 +442,7 @@ http_archive(
         "http://zlib.net/fossils/zlib-1.2.11.tar.gz",  # 2017-01-15
     ],
     patches = [
-        "@//third_party:zlib.diff",
+        "@//third_party_mp:zlib.diff",
     ],
     patch_args = [
         "-p1",
@@ -459,9 +459,9 @@ http_archive(
       "https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
     ],
     patches = [
-        "@//third_party:org_tensorflow_compatibility_fixes.diff",
+        "@//third_party_mp:org_tensorflow_compatibility_fixes.diff",
         # Diff is generated with a script, don't update it manually.
-        "@//third_party:org_tensorflow_custom_ops.diff",
+        "@//third_party_mp:org_tensorflow_custom_ops.diff",
     ],
     patch_args = [
         "-p1",
@@ -490,5 +490,5 @@ libedgetpu_dependencies()
 load("@coral_crosstool//:configure.bzl", "cc_crosstool")
 cc_crosstool(name = "crosstool")
 
-load("//third_party:external_files.bzl", "external_files")
+load("//third_party_mp:external_files.bzl", "external_files")
 external_files()

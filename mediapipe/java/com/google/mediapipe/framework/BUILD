@@ -57,8 +57,8 @@ android_library(
     ],
     deps = [
         ":android_core",
-        "//third_party:androidx_annotation",
-        "//third_party:androidx_legacy_support_v4",
+        "//third_party_mp:androidx_annotation",
+        "//third_party_mp:androidx_legacy_support_v4",
         "@maven//:com_google_code_findbugs_jsr305",
         "@maven//:com_google_flogger_flogger",
         "@maven//:com_google_flogger_flogger_system_backend",

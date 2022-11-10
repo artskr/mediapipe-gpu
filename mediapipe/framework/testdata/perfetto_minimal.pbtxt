@@ -1,6 +1,6 @@
 # Perfetto Config with minimal information needed for tracing MediaPipe functions.
 # Use when benchmarking to reduce latency overhead from Perfetto trace.
-# proto-file: third_party/perfetto/protos/perfetto/config/perfetto_config.proto
+# proto-file: third_party_mp/perfetto/protos/perfetto/config/perfetto_config.proto
 # proto-message: TraceConfig
 
 buffers: {
